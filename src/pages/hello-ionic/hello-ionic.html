@@ -1,0 +1,40 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>Hello</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list no-lines>
+    <ion-item *ngFor="let msg of messages">
+      <chat-bubble [message]="msg"></chat-bubble>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons left>
+      <button ion-button icon-only item-left>
+        <ion-icon name="attach"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <form >
+      <ion-input
+        type="text"
+        #chat_input
+        [(ngModel)]="message"
+        (keyup.enter)="sendMessage()"
+        (focus)="updateScroll()"
+        name="message"
+        placeholder="Write a message...">
+      </ion-input>
+    </form>
+    <ion-buttons right>
+      <div ion-button icon-only item-right (click)="sendMessage($event)">
+          <ion-icon name="send"></ion-icon>
+        </div>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
