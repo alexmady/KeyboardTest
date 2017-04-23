@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { Platform, MenuController, Nav } from 'ionic-angular';
-import { Keyboard, StatusBar } from 'ionic-native';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
+import { Keyboard } from '@ionic-native/keyboard';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  providers: [Keyboard]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -13,7 +14,8 @@ export class MyApp {
 
   constructor(
     public platform: Platform,
-    public menu: MenuController
+    public menu: MenuController,
+    private keybaord: Keyboard
   ) {
     this.initializeApp();
     this.pages = [
@@ -23,9 +25,7 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      StatusBar.styleDefault();
-      //Keyboard.disableScroll(true);
-
+      this.keybaord.disableScroll(false);
     });
   }
 

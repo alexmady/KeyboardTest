@@ -1,10 +1,9 @@
-
-<ion-header>
+<ion-header fixed>
   <ion-navbar>
     <ion-title>Hello</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content>
+<ion-content (mousedown)="contentMouseDown()">
   <ion-list no-lines>
     <ion-item *ngFor="let msg of messages">
       <chat-bubble [message]="msg"></chat-bubble>
@@ -20,21 +19,18 @@
       </button>
     </ion-buttons>
 
-    <form>
-      <ion-input
-        type="text"
-        #chat_input
-        [(ngModel)]="message"
-        (keyup.enter)="sendMessage()"
-        (focus)="updateScroll()"
-        name="message"
-        placeholder="Write a message...">
-      </ion-input>
-    </form>
+
+<!-- (focus)="updateScroll()" -->
+    <ion-input autocomplete="true" spellcheck="true" type="text" #chat_input 
+    [(ngModel)]="message" (keyup.enter)="sendMessage()"
+       name="message" placeholder="Write a message...">
+    </ion-input>
+
     <ion-buttons right>
-      <div ion-button icon-only item-right (click)="sendMessage($event)">
+      <button icon-only item-right (click)="sendMessage()" id="send-button">
           <ion-icon name="send"></ion-icon>
-        </div>
+        </button>
     </ion-buttons>
+
   </ion-toolbar>
 </ion-footer>
