@@ -78,7 +78,7 @@ export class HelloIonicPage {
     this.message = "";
     console.log('calling updated');
     //this.messageInput.setFocus();
-    //this.updateScroll();
+    this.updateScroll();
   }
 
   

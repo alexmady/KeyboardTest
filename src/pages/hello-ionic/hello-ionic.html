@@ -20,8 +20,7 @@
     </ion-buttons>
 
 
-<!-- (focus)="updateScroll()" -->
-    <ion-input autocomplete="true" spellcheck="true" type="text" #chat_input 
+    <ion-input (focus)="updateScroll()" autocomplete="true" spellcheck="true" type="text" #chat_input 
     [(ngModel)]="message" (keyup.enter)="sendMessage()"
        name="message" placeholder="Write a message...">
     </ion-input>
