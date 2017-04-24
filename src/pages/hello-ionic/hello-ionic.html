@@ -3,7 +3,7 @@
     <ion-title>Hello</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content (mousedown)="contentMouseDown()">
+<ion-content>
   <ion-list no-lines>
     <ion-item *ngFor="let msg of messages">
       <chat-bubble [message]="msg"></chat-bubble>

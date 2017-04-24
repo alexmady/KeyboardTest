@@ -43,30 +43,30 @@ export class HelloIonicPage {
   private inputElement;
 
   ionViewDidLoad() {
-    this.inputElement = document.getElementsByTagName('input')[0];
-    console.log(this.inputElement, '<<-- input element')
+    // this.inputElement = document.getElementsByTagName('input')[0];
+    // console.log(this.inputElement, '<<-- input element')
 
-    this.inputElement.onfocus = () => {
-      console.log('input element focus');
+    // this.inputElement.onfocus = () => {
+    //   console.log('input element focus');
 
-      this.inputElement.onblur = (event) => {
+    //   this.inputElement.onblur = (event) => {
 
-        console.log(event.type, typeof (event));
-        if (event.type === typeof (FocusEvent)) {
+    //     console.log(event.type, typeof (event));
+    //     if (event.type === typeof (FocusEvent)) {
 
-        } else {
-          console.log('the event', event);
-          console.log('on blur input');
-          this.inputElement.focus();
-        }
-      }
-    }
+    //     } else {
+    //       console.log('the event', event);
+    //       console.log('on blur input');
+    //       this.inputElement.focus();
+    //     }
+    //   }
+    // }
   }
 
-  contentMouseDown() {
-    console.log('content mouse down');
-    this.inputElement.onblur = null;
-  }
+  // contentMouseDown() {
+    // console.log('content mouse down');
+    // this.inputElement.onblur = null;
+  // }
 
   sendMessage() {
 
