@@ -43,33 +43,51 @@ export class HelloIonicPage {
   private inputElement;
 
   ionViewDidLoad() {
-    // this.inputElement = document.getElementsByTagName('input')[0];
-    // console.log(this.inputElement, '<<-- input element')
+    this.inputElement = document.getElementsByTagName('input')[0];
+    console.log(this.inputElement, '<<-- input element')
 
-    // this.inputElement.onfocus = () => {
-    //   console.log('input element focus');
 
-    //   this.inputElement.onblur = (event) => {
 
-    //     console.log(event.type, typeof (event));
-    //     if (event.type === typeof (FocusEvent)) {
+    this.inputElement.onfocus = () => {
 
-    //     } else {
-    //       console.log('the event', event);
-    //       console.log('on blur input');
-    //       this.inputElement.focus();
-    //     }
-    //   }
-    // }
+      console.log('input element focus');
+      this.inputElement.onblur = (event: Event) => {
+
+        console.log('trying to prevent blur event')
+        this.inputElement.focus();
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+      }
+
+    }
   }
 
-  // contentMouseDown() {
-    // console.log('content mouse down');
-    // this.inputElement.onblur = null;
-  // }
+  contentMouseDown() {
+    console.log('content mouse down');
+    this.inputElement.onblur = null;
+
+  }
+
+  buttonMouseDown(event: Event) {
+
+    //this.inputElement.focus();
+
+    console.log('stop prop and send message');
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    event.stopPropagation();
+
+    this.sendMessage();
+
+  }
+
+  labelClicked(): void {
+    alert('label clicked');
+  }
 
   sendMessage() {
-
 
     this.messages.push({
       position: 'left',
@@ -81,11 +99,15 @@ export class HelloIonicPage {
     this.updateScroll();
   }
 
-  
+  labelClick($event) {
+    console.log('label click')
+  }
+
+
   updateScroll() {
     console.log('updating scroll')
     setTimeout(() => {
       this.content.scrollToBottom();
-    },100)
+    }, 100)
   }
 }
