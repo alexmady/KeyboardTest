@@ -36,7 +36,7 @@
 		</ion-input>
 
 		<ion-buttons right>
-			<button class="send-button" item-right id="send-button" (touchstart)="buttonMouseDown($event)">
+			<button [disabled]="!message" class="send-button" item-right id="send-button" (touchstart)="buttonMouseDown($event)">
 				 <ion-icon name="send"></ion-icon>
 	        </button>
 		</ion-buttons>
