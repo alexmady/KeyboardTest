@@ -93,27 +93,45 @@ export class HelloIonicPage {
 
   private onblurAdded = false;
 
+  private isFocused = false;
 
+
+  ionInputTouchStart(evt: Event) {
+    if (this.isFocused) {
+      console.log(' ***** preventing secondary focus');
+      evt.preventDefault();
+      evt.stopImmediatePropagation();
+      evt.stopPropagation();
+    } else {
+      console.log('was not focused ****** ');
+    }
+  }
 
   ionViewDidLoad() {
     this.inputElement = document.getElementsByTagName('input')[0];
     console.log(this.inputElement, '<<-- input element')
 
+    // this.inputElement.touchstart = (evt: Event) => {
+    //   if (this.isFocused) {
+    //     console.log('preventing secondary focus');
+    //     evt.preventDefault();
+    //   }
+    // }
 
-    this.inputElement.onfocus = () => {
 
+    this.inputElement.onfocus = (evt: Event) => {
+
+      this.isFocused = true;
+      console.log('setting focused true');
+      
       this.inputElement.onblur = (event: Event) => {
 
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        event.stopPropagation();
         this.inputElement.focus();
-        // event.preventDefault();
-        // event.stopImmediatePropagation();
-        // event.stopPropagation();
-
 
       };
-
-      // }
-
 
     }
 
@@ -125,6 +143,7 @@ export class HelloIonicPage {
 
   contentMouseDown(event) {
 
+    this.isFocused = false;
     if (this.inputElement.onblur) {
       console.log('REMOVING BLUR EVENT');
       this.inputElement.onblur = null;
@@ -136,7 +155,7 @@ export class HelloIonicPage {
 
   private noHideAdjust = false;
 
-  toolbarTouchStart(event: Event){
+  toolbarTouchStart(event: Event) {
     console.log('toolbar touch start prevent');
     event.preventDefault();
   }
@@ -147,8 +166,8 @@ export class HelloIonicPage {
     console.log('button mouse down');
 
     //setTimeout(() => {
-      this.noHideAdjust = true;
-      this.sendMessage();
+    this.noHideAdjust = true;
+    this.sendMessage();
     //}, 0)
 
     event.stopImmediatePropagation();

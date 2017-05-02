@@ -32,7 +32,7 @@
 		</ion-buttons>-->
 
 
-		<ion-input class="chat-input" keyboardFix [(ngModel)]="message" placeholder="Write a message...">
+		<ion-input (touchstart)="ionInputTouchStart($event)" class="chat-input" keyboardFix [(ngModel)]="message" placeholder="Write a message...">
 		</ion-input>
 
 		<ion-buttons right>
