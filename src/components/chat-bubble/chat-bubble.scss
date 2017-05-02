@@ -42,7 +42,7 @@
     padding: 10px 18px;
     position: relative;
     margin: 10px;
-    max-width: 80%;
+    max-width: 65%;
   }
 
   .chat-bubble:before {
@@ -57,7 +57,7 @@
   .chat-bubble.left {
     background-color: map-get($chat-bubble, background-left);
     float: left;
-    margin-left: 45px;
+    //margin-left: 45px;
   }
 
   .chat-bubble.left:before {
@@ -70,7 +70,7 @@
     background-color: map-get($chat-bubble, background-right);
     color: #000;
     float: right;
-    margin-right: 45px;
+    //margin-right: 45px;
   }
 
   .chat-bubble.right:before {

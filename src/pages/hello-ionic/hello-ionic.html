@@ -1,35 +1,45 @@
-<ion-header fixed>
-  <ion-navbar>
-    <ion-title>Hello</ion-title>
-  </ion-navbar>
+<ion-header>
+	<ion-navbar>
+		<ion-title> iOS Keyboard Test</ion-title>
+
+		
+		<!--<div *ngIf="config">{{inputBlurring}}</div>-->
+		<!--<ion-buttons left>
+			<button (click)="toggleInputBlurring(true)"> inputBlurring ON
+        </button>
+		</ion-buttons>
+		<ion-buttons right>
+			<button (click)="toggleInputBlurring(false)"> inputBlurring OFF
+        </button>-->
+		<!--</ion-buttons>-->
+	</ion-navbar>
 </ion-header>
-<ion-content (mousedown)="contentMouseDown()">
-  <ion-list no-lines>
-    <ion-item *ngFor="let msg of messages">
-      <chat-bubble [message]="msg"></chat-bubble>
-    </ion-item>
-  </ion-list>
+<ion-content (touchstart)="contentMouseDown()">
+	<ion-list no-lines>
+		<ion-item *ngFor="let msg of messages">
+			<chat-bubble [message]="msg"></chat-bubble>
+		</ion-item>
+	</ion-list>
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar>
-    <ion-buttons left>
-      <button ion-button icon-only item-left>
+	<!-- (touchstart)="toolbarTouchStart($event)" -->
+	<ion-toolbar>
+		<!--<ion-buttons left>
+			<button ion-button icon-only item-left>
         <ion-icon name="attach"></ion-icon>
       </button>
-    </ion-buttons>
+		</ion-buttons>-->
 
 
-    <ion-input (focus)="updateScroll()" autocomplete="true" spellcheck="true" type="text" #chat_input 
-    [(ngModel)]="message" (keyup.enter)="sendMessage()"
-       name="message" placeholder="Write a message...">
-    </ion-input>
+		<ion-input class="chat-input" keyboardFix [(ngModel)]="message" placeholder="Write a message...">
+		</ion-input>
 
-    <ion-buttons right>
-      <button icon-only item-right (mousedown)="buttonMouseDown($event)" id="send-button">
-          <ion-icon name="send"></ion-icon>
-        </button>
-    </ion-buttons>
+		<ion-buttons right>
+			<button class="send-button" item-right id="send-button" (touchstart)="buttonMouseDown($event)">
+				 <ion-icon name="send"></ion-icon>
+	        </button>
+		</ion-buttons>
 
-  </ion-toolbar>
+	</ion-toolbar>
 </ion-footer>

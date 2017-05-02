@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
     template:
     `
       <div class="chatBubble">
-        <div class="profile-pic {{msg.position}}"></div>
+        <!-- <div class="profile-pic {{msg.position}}"></div> -->
         <div class="chat-bubble {{msg.position}}">
           <div class="message">{{msg.body}}</div>
           <div class="message-detail">

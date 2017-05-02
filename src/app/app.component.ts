@@ -25,7 +25,7 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.keybaord.disableScroll(false);
+      this.keybaord.disableScroll(true);
     });
   }
 

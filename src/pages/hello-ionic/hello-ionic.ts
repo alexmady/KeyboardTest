@@ -1,9 +1,12 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, NgZone } from '@angular/core';
+import { Config } from 'ionic-angular'
 import { Content } from 'ionic-angular';
+import { Keyboard } from 'ionic-native';
 
 @Component({
   selector: 'hello-ionic-page',
-  templateUrl: 'hello-ionic.html'
+  templateUrl: 'hello-ionic.html',
+  providers: [Keyboard]
 })
 export class HelloIonicPage {
   public message = "";
@@ -36,78 +39,151 @@ export class HelloIonicPage {
   @ViewChild(Content) content: Content;
   //@ViewChild('chat_input') messageInput: TextInput;
 
-  constructor() {
+  //  private inputBlurring;
+  //private config: Config;
+
+  constructor(config: Config, keybaord: Keyboard, private ngZone: NgZone) {
+
+    // this.config = config;
+    // this.inputBlurring = this.config.get('platforms').ios.inputBlurring;
+    // console.log('CONFIG', config.get('platforms'));
+
+    Keyboard.onKeyboardHide().subscribe(() => {
+
+      if (!this.noHideAdjust) {
+        console.log('keybaordHide');
+        let sc: any = document.getElementsByClassName('scroll-content')[1];
+        sc.style.marginBottom = '44px';
+        let footer: any = document.getElementsByClassName('footer')[0];
+        footer.style.marginBottom = '0px';
+      }
+      this.updateScroll();
+
+    });
+
+    Keyboard.onKeyboardShow().subscribe((e) => {
+
+      this.noHideAdjust = false;
+      console.log('keybaordShow');
+      let scrollContent = (<HTMLDivElement>document.querySelector('.scroll-content'));
+      console.log('SC:', scrollContent, scrollContent.style)
+      let newHeight = (e['keyboardHeight'] + 44);
+      console.log('new height', newHeight);
+      let sc: any = document.getElementsByClassName('scroll-content')[1];
+      sc.style.marginBottom = newHeight + 'px';
+
+      let footer: any = document.getElementsByClassName('footer')[0];
+      footer.style.marginBottom = newHeight - 44 + 'px';
+      this.updateScroll();
+
+
+    });
+
 
   }
 
+  // toggleInputBlurring(val) {
+  //   console.log('set inputBlurring', val)
+  //   this.config.set('ios', 'inputBlurring', val);
+  //   this.inputBlurring = this.config.get('platforms').ios.inputBlurring;
+
+  // }
+
   private inputElement;
+
+  private onblurAdded = false;
+
+
 
   ionViewDidLoad() {
     this.inputElement = document.getElementsByTagName('input')[0];
     console.log(this.inputElement, '<<-- input element')
 
 
-
     this.inputElement.onfocus = () => {
 
-      console.log('input element focus');
       this.inputElement.onblur = (event: Event) => {
 
-        console.log('trying to prevent blur event')
         this.inputElement.focus();
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-      }
+        // event.preventDefault();
+        // event.stopImmediatePropagation();
+        // event.stopPropagation();
+
+
+      };
+
+      // }
+
 
     }
+
   }
 
-  contentMouseDown() {
-    console.log('content mouse down');
-    this.inputElement.onblur = null;
 
+
+
+
+  contentMouseDown(event) {
+
+    if (this.inputElement.onblur) {
+      console.log('REMOVING BLUR EVENT');
+      this.inputElement.onblur = null;
+      this.onblurAdded = false;
+      this.updateScroll();
+    }
+
+  }
+
+  private noHideAdjust = false;
+
+  toolbarTouchStart(event: Event){
+    console.log('toolbar touch start prevent');
+    event.preventDefault();
   }
 
   buttonMouseDown(event: Event) {
 
-    //this.inputElement.focus();
-
-    console.log('stop prop and send message');
-
     event.preventDefault();
+    console.log('button mouse down');
+
+    //setTimeout(() => {
+      this.noHideAdjust = true;
+      this.sendMessage();
+    //}, 0)
+
     event.stopImmediatePropagation();
     event.stopPropagation();
+    //this.inputElement.focus();
 
-    this.sendMessage();
 
-  }
-
-  labelClicked(): void {
-    alert('label clicked');
   }
 
   sendMessage() {
-
     this.messages.push({
       position: 'left',
       body: this.message
     });
     this.message = "";
-    console.log('calling updated');
-    //this.messageInput.setFocus();
-    this.updateScroll();
+
+    if (!this.inputElement.onblur) {
+      this.updateScroll();
+    }
+
+    setTimeout(() => {
+      this.messages.push({
+        position: 'right',
+        body: "random reply to your amazing message is here"
+      });
+      this.updateScroll();
+    }, 3000)
   }
 
-  labelClick($event) {
-    console.log('label click')
-  }
 
 
   updateScroll() {
-    console.log('updating scroll')
     setTimeout(() => {
+      console.log('updating scroll')
       this.content.scrollToBottom();
-    }, 100)
+    }, 100);
   }
 }

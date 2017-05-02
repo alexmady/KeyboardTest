@@ -1,6 +1,35 @@
-.input-cover {
-position: static;
+// .input-cover {
+// position: static;
+// }
+// .scroll-content {
+//     bottom: 308px;
+// }
+
+.scroll-content {
+    // background: red;
 }
-.fake {
-     background-color: red;
+.item {
+    // background: transparent;
+}
+
+.send-button{
+    color: #387ef5;
+    height: 44px;
+    font-size: 2.8rem;
+}
+
+.chat-input {
+    height: 44px;
+}
+
+ion-buttons {
+    margin: 0px !important;
+}
+
+.toolbar-ios {
+    padding: 0px;
+}
+
+.text-input {
+    margin-left: 15px;
 }
