@@ -1,17 +1,17 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title> iOS Keyboard Test</ion-title>
+		<ion-title> iOS Keyboard Test {{millis}}</ion-title>
 
 		
 		<!--<div *ngIf="config">{{inputBlurring}}</div>-->
 		<!--<ion-buttons left>
 			<button (click)="toggleInputBlurring(true)"> inputBlurring ON
         </button>
-		</ion-buttons>
-		<ion-buttons right>
-			<button (click)="toggleInputBlurring(false)"> inputBlurring OFF
-        </button>-->
-		<!--</ion-buttons>-->
+		</ion-buttons>-->
+		<!--<ion-buttons right>
+			<button (click)="transform()"> TRANSFORM
+        </button>
+		</ion-buttons>-->
 	</ion-navbar>
 </ion-header>
 <ion-content (touchstart)="contentMouseDown()">
@@ -32,8 +32,8 @@
 		</ion-buttons>-->
 
 
-		<ion-input (touchstart)="ionInputTouchStart($event)" class="chat-input" keyboardFix [(ngModel)]="message" placeholder="Write a message...">
-		</ion-input>
+		<ion-textarea (ngModelChange)="textAreaChange()" rows="1" fz-elastic (touchstart)="ionInputTouchStart($event)" class="chat-input" keyboardFix [(ngModel)]="message" placeholder="Write a message...">
+		</ion-textarea>
 
 		<ion-buttons right>
 			<button [disabled]="!message" class="send-button" item-right id="send-button" (touchstart)="buttonMouseDown($event)">

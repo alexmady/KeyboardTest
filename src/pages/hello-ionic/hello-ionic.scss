@@ -7,33 +7,58 @@
 
 .scroll-content {
     // background: red;
+    // transition: margin-bottom 12s;
+    // -webkit-transition: margin-bottom 12s;
 }
 .item {
     // background: transparent;
 }
 
+.list {
+    margin: 0px;
+}
+
 .send-button{
-    color: #387ef5;
-    height: 44px;
-    font-size: 2.8rem;
+    color: white;
+    // height: 44px;
+    font-size: 2.1rem;
+    background: #387ef5;
+    margin-left: -10px;
+    margin-right: 5px;
+    border-radius: 260px;
 }
 
 .toolbar-background {
     border-width: 0px !important;
+    // background: red;
+    background: transparent;
 }
 
 .chat-input {
-    height: 44px;
+   // height: 44px;
 }
 
 ion-buttons {
     margin: 0px !important;
 }
 
-.toolbar-ios {
-    padding: 0px;
-}
+// .toolbar-ios {
+//     padding: 0px;
+// }
 
 .text-input {
-    margin-left: 15px;
+    margin-left: 5px;
+    // margin-bottom: 0px;
+}
+
+ion-textarea {
+        border: 1px solid;
+    border-radius: 10px;
+    margin-left: 10px;
+    border-color: lightgrey;
+    margin-right: 10px;
+    margin-top: 5px;
+    background-color: #f8f8f8;
+    margin-bottom: 5px;
+    width: 90%;
 }

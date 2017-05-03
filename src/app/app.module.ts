@@ -6,6 +6,8 @@ import {ChatBubble} from '../components/chat-bubble/chat-bubble';
 import { keyboardFix } from '../components/keyboard-fix/keyboard-fix'
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
+import { ElasticModule } from 'angular2-elastic';
+
 
 @NgModule({
   declarations: [
@@ -17,6 +19,7 @@ import { HttpModule } from '@angular/http';
   imports: [
     BrowserModule,
     HttpModule,
+    ElasticModule,
     IonicModule.forRoot(MyApp, {
       // platforms: {
       //           ios: {
