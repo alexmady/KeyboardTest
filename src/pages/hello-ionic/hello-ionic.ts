@@ -1,5 +1,5 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { Content, NavParams } from 'ionic-angular';
+import { Content, NavParams, NavController } from 'ionic-angular';
 import { Keyboard } from 'ionic-native';
 
 @Component({
@@ -49,7 +49,7 @@ export class HelloIonicPage {
 
   @ViewChild(Content) content: Content;
 
-  constructor(keybaord: Keyboard, private ngZone: NgZone, public navParams: NavParams) {
+  constructor(keybaord: Keyboard, private ngZone: NgZone, public navParams: NavParams, public navCtrl: NavController) {
 
     this.user = navParams.get('user');
 
@@ -110,6 +110,11 @@ export class HelloIonicPage {
     }
   }
 
+  back($event: Event){
+    $event.preventDefault();
+    this.inputElement.onblur = null;
+    this.navCtrl.pop();
+  }
 
   ionViewDidLoad() {
 
