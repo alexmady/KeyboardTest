@@ -37,9 +37,9 @@
       </button>
 		</ion-buttons>-->
 
-		<ion-textarea (ngModelChange)="textAreaChange()" rows="1" fz-elastic (touchstart)="ionInputTouchStart($event)" class="chat-input"
-			keyboardFix [(ngModel)]="message" placeholder="Write a message...">
-		</ion-textarea>
+		<textarea spellcheck="true" autocomplete="true" (ngModelChange)="textAreaChange()" rows="1" fz-elastic (touchstart)="ionInputTouchStart($event)" class="chat-input"
+			 [(ngModel)]="message" placeholder="Write a message...">
+		</textarea>
 
 		<ion-buttons right>
 			<button [disabled]="!message" class="send-button" item-right id="send-button" (touchstart)="touchSendButton($event)">

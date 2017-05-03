@@ -51,7 +51,10 @@ ion-buttons {
     // margin-bottom: 0px;
 }
 
-ion-textarea {
+textarea {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
         border: 1px solid;
     border-radius: 10px;
     margin-left: 10px;

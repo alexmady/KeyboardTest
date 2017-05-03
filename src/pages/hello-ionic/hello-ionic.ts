@@ -58,17 +58,17 @@ export class HelloIonicPage {
   }
 
   footerTouchStart(event) {
+    console.log('preventing - footerTouchStart')
     if (event.target.localName !== "textarea") {
-      event.preventDefault();
+      //event.preventDefault();
     }
   }
 
   ionInputTouchStart(evt) {
     if (this.isTextareaFocused) {
-      evt.preventDefault();
+      //evt.preventDefault();
     }
   }
-
 
   textAreaChange() {
 
@@ -77,6 +77,7 @@ export class HelloIonicPage {
 
       let diffHeight = newHeight - this.textareaHeight;
       this.textareaHeight = newHeight;
+      console.log('new text area height', this.textareaHeight);
       let newNumber = Number(this.scrollContentElelment.style.marginBottom.replace('px', '')) + diffHeight;
       this.scrollContentElelment.style.marginBottom = newNumber + 'px';
       this.updateScroll('textAreaChange');
@@ -84,11 +85,13 @@ export class HelloIonicPage {
   }
 
   back($event: Event) {
-    $event.preventDefault();
-    this.keyboardHideSub.unsubscribe();
-    this.keybaordShowSub.unsubscribe();
-    this.inputElement.onblur = null;
-    this.navCtrl.pop();
+
+    this.inputElement.blur();
+
+    this.navCtrl.pop().then(() => {
+      this.keyboardHideSub.unsubscribe();
+      this.keybaordShowSub.unsubscribe();
+    });
   }
 
   ionViewDidLoad() {
@@ -96,27 +99,30 @@ export class HelloIonicPage {
     this.keyboardHideSub = Keyboard.onKeyboardHide().subscribe(() => {
 
       console.log('keybaordHide');
-      if (!this.noHideAdjust) {
-        let newHeight = this.textareaHeight - this.initialTextAreaHeight + 44;
-        let newHeightStr = newHeight + 'px';
-        this.scrollContentElelment.style.marginBottom = newHeightStr;
-        this.footerElement.style.marginBottom = '0px';
-        this.updateScroll('keybaordHide');
-      }
+      // if (!this.noHideAdjust) {
+      let newHeight = this.textareaHeight - this.initialTextAreaHeight + 44;
+      let newHeightStr = newHeight + 'px';
+      this.scrollContentElelment.style.marginBottom = newHeightStr;
+      this.footerElement.style.marginBottom = '0px';
+      this.updateScroll('keybaordHide');
+      // }
 
     });
 
     this.keybaordShowSub = Keyboard.onKeyboardShow().subscribe((e) => {
 
-      this.noHideAdjust = false;
       console.log('keybaordShow');
-      let newHeight = (e['keyboardHeight'] + 44) + this.textareaHeight - this.initialTextAreaHeight;
-      this.scrollContentElelment.style.marginBottom = newHeight + 'px';
-      this.footerElement.style.marginBottom = e['keyboardHeight'] + 'px';
+      if (!this.isTextareaFocused) {
+        this.isTextareaFocused = true;
+        this.noHideAdjust = false;
+        let newHeight = (e['keyboardHeight'] + 44) + this.textareaHeight - this.initialTextAreaHeight;
+        this.scrollContentElelment.style.marginBottom = newHeight + 'px';
+        this.footerElement.style.marginBottom = e['keyboardHeight'] + 'px';
 
-      setTimeout(() => {
-        this.updateScroll('keybaordShow');
-      }, 100)
+        setTimeout(() => {
+          this.updateScroll('keybaordShow');
+        }, 100)
+      }
 
     });
 
@@ -135,16 +141,18 @@ export class HelloIonicPage {
     this.textareaHeight = Number(this.inputElement.style.height.replace('px', ''));
     this.initialTextAreaHeight = this.textareaHeight;
 
-    this.inputElement.onfocus = (evt: Event) => {
-      this.inputElement.onblur = (event: Event) => {
-        event.preventDefault();
-        this.inputElement.focus();
-      };
-    }
+    // this.inputElement.onfocus = (evt: Event) => {
+    //   this.inputElement.onblur = (event: Event) => {
+    //     event.preventDefault();
+    //     this.inputElement.focus();
+    //   };
+    // }
   }
 
   contentMouseDown(event) {
 
+    console.log('blurring input element');
+    this.inputElement.blur();
     this.isTextareaFocused = false;
     if (this.inputElement.onblur) {
       this.inputElement.onblur = null;
@@ -159,18 +167,35 @@ export class HelloIonicPage {
 
   sendMessage() {
 
-    this.messages.push({
-      position: 'left',
-      body: this.message
-    });
+    this.ngZone.run(() => {
+
+      this.messages.push({
+        position: 'left',
+        body: this.message
+      });
+
+    })
 
     this.message = "";
+    //this.textareaHeight = this.initialTextAreaHeight;
+
+    //if (this.plt.is('core') || this.plt.is('mobileweb')) {
+    let currentHeight = this.scrollContentElelment.style.marginBottom.replace('px', '');
+    let newHeight = currentHeight - this.textareaHeight + this.initialTextAreaHeight;
+
+    console.log('-----------------------');
+    console.log('current height ', currentHeight);
+    console.log('textareaHeight ', this.textareaHeight);
+    console.log('initialTextAreaHeight ', this.initialTextAreaHeight);
+    console.log('new height ', newHeight);
+    console.log('-----------------------');
+
+    this.scrollContentElelment.style.marginBottom = newHeight + 'px';
+    this.updateScroll('sendMessage');
     this.textareaHeight = this.initialTextAreaHeight;
 
-    if (this.plt.is('core') || this.plt.is('mobileweb')) {
-      this.updateScroll('sendMessage');
-      this.scrollContentElelment.style.marginBottom = '44px';
-    }
+    //  this.scrollContentElelment.style.marginBottom = '44px';
+    //}
 
     setTimeout(() => {
       this.messages.push({
