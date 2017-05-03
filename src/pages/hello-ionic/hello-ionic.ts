@@ -9,6 +9,7 @@ import { Keyboard } from 'ionic-native';
 })
 export class HelloIonicPage {
 
+  @ViewChild(Content) content: Content;
   private inputElement;
   private millis = 100;
   private textareaHeight;
@@ -18,7 +19,8 @@ export class HelloIonicPage {
   private footerElement: any;
   private initialTextAreaHeight;
   private user;
-
+  private keyboardHideSub;
+  private keybaordShowSub;
   public message = "";
   public messages: any[] = [
     {
@@ -47,50 +49,21 @@ export class HelloIonicPage {
     },
   ];
 
-  @ViewChild(Content) content: Content;
+
 
   constructor(keybaord: Keyboard, public plt: Platform, private ngZone: NgZone, public navParams: NavParams, public navCtrl: NavController) {
 
     this.user = navParams.get('user');
 
-    Keyboard.onKeyboardHide().subscribe(() => {
-
-      console.log('keybaordHide');
-      if (!this.noHideAdjust) {
-        let newHeight = this.textareaHeight - this.initialTextAreaHeight + 44;
-        let newHeightStr = newHeight + 'px';
-        this.scrollContentElelment.style.marginBottom = newHeightStr;
-        this.footerElement.style.marginBottom = '0px';
-      }
-      this.updateScroll('keybaordHide');
-
-    });
-
-    Keyboard.onKeyboardShow().subscribe((e) => {
-
-      this.noHideAdjust = false;
-      console.log('keybaordShow');
-      let newHeight = (e['keyboardHeight'] + 44) + this.textareaHeight - this.initialTextAreaHeight;
-      this.scrollContentElelment.style.marginBottom = newHeight + 'px';
-      this.footerElement.style.marginBottom = e['keyboardHeight'] + 'px';
-
-      setTimeout(() => {
-        this.updateScroll('keybaordShow');
-      }, 300)
-
-    });
-
-  } // end constructor
+  }
 
   footerTouchStart(event) {
-    console.log('footerTouchStart', event.target.localName)
     if (event.target.localName !== "textarea") {
       event.preventDefault();
     }
   }
 
   ionInputTouchStart(evt) {
-    console.log('ionInputTouchStart', evt.target.localName)
     if (this.isTextareaFocused) {
       evt.preventDefault();
     }
@@ -100,8 +73,6 @@ export class HelloIonicPage {
   textAreaChange() {
 
     let newHeight = Number(this.inputElement.style.height.replace('px', ''));
-    //console.log('new height VS textareaHeight', newHeight, this.textareaHeight);
-
     if (newHeight !== this.textareaHeight) {
 
       let diffHeight = newHeight - this.textareaHeight;
@@ -114,11 +85,40 @@ export class HelloIonicPage {
 
   back($event: Event) {
     $event.preventDefault();
+    this.keyboardHideSub.unsubscribe();
+    this.keybaordShowSub.unsubscribe();
     this.inputElement.onblur = null;
     this.navCtrl.pop();
   }
 
   ionViewDidLoad() {
+
+    this.keyboardHideSub = Keyboard.onKeyboardHide().subscribe(() => {
+
+      console.log('keybaordHide');
+      if (!this.noHideAdjust) {
+        let newHeight = this.textareaHeight - this.initialTextAreaHeight + 44;
+        let newHeightStr = newHeight + 'px';
+        this.scrollContentElelment.style.marginBottom = newHeightStr;
+        this.footerElement.style.marginBottom = '0px';
+        this.updateScroll('keybaordHide');
+      }
+
+    });
+
+    this.keybaordShowSub = Keyboard.onKeyboardShow().subscribe((e) => {
+
+      this.noHideAdjust = false;
+      console.log('keybaordShow');
+      let newHeight = (e['keyboardHeight'] + 44) + this.textareaHeight - this.initialTextAreaHeight;
+      this.scrollContentElelment.style.marginBottom = newHeight + 'px';
+      this.footerElement.style.marginBottom = e['keyboardHeight'] + 'px';
+
+      setTimeout(() => {
+        this.updateScroll('keybaordShow');
+      }, 100)
+
+    });
 
     let page: any = document.getElementsByTagName('hello-ionic-page');
     this.scrollContentElelment = page[0].children[1].children[1];
@@ -152,7 +152,6 @@ export class HelloIonicPage {
   }
 
   touchSendButton(event: Event) {
-    event.stopImmediatePropagation();
     event.preventDefault();
     this.noHideAdjust = true;
     this.sendMessage();
@@ -168,10 +167,9 @@ export class HelloIonicPage {
     this.message = "";
     this.textareaHeight = this.initialTextAreaHeight;
 
-    console.log('platform', this.plt.is('mobileweb'));
     if (this.plt.is('core') || this.plt.is('mobileweb')) {
       this.updateScroll('sendMessage');
-      this.scrollContentElelment.style.marginBottom =  '44px';
+      this.scrollContentElelment.style.marginBottom = '44px';
     }
 
     setTimeout(() => {
