@@ -1,5 +1,5 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { Content } from 'ionic-angular';
+import { Content, NavParams } from 'ionic-angular';
 import { Keyboard } from 'ionic-native';
 
 @Component({
@@ -17,6 +17,7 @@ export class HelloIonicPage {
   private scrollContentElelment: any;
   private footerElement: any;
   private initialTextAreaHeight;
+  private user;
 
   public message = "";
   public messages: any[] = [
@@ -48,15 +49,16 @@ export class HelloIonicPage {
 
   @ViewChild(Content) content: Content;
 
-  constructor(keybaord: Keyboard, private ngZone: NgZone) {
+  constructor(keybaord: Keyboard, private ngZone: NgZone, public navParams: NavParams) {
+
+    this.user = navParams.get('user');
 
     Keyboard.onKeyboardHide().subscribe(() => {
 
-      console.log('keybaordHide');
+      // console.log('keybaordHide');
       if (!this.noHideAdjust) {
         let newHeight = this.textareaHeight - this.initialTextAreaHeight + 44;
         let newHeightStr = newHeight + 'px';
-        console.log(newHeightStr, this.initialTextAreaHeight, this.textareaHeight);
         this.scrollContentElelment.style.marginBottom = newHeightStr;
         this.footerElement.style.marginBottom = '0px';
       }
@@ -67,7 +69,7 @@ export class HelloIonicPage {
     Keyboard.onKeyboardShow().subscribe((e) => {
 
       this.noHideAdjust = false;
-      console.log('keybaordShow');
+      // console.log('keybaordShow');
       let newHeight = (e['keyboardHeight'] + 44) + this.textareaHeight - this.initialTextAreaHeight;
       this.scrollContentElelment.style.marginBottom = newHeight + 'px';
       this.footerElement.style.marginBottom = e['keyboardHeight'] + 'px';
@@ -106,14 +108,13 @@ export class HelloIonicPage {
       this.scrollContentElelment.style.marginBottom = newNumber + 'px';
       this.updateScroll();
     }
-
   }
-
 
 
   ionViewDidLoad() {
 
-    this.scrollContentElelment = document.getElementsByClassName('scroll-content')[1];
+    let page: any = document.getElementsByTagName('hello-ionic-page');
+    this.scrollContentElelment = page[0].children[1].children[1];
     this.footerElement = document.getElementsByClassName('footer')[0];
     this.inputElement = document.getElementsByTagName('textarea')[0];
 
@@ -156,7 +157,7 @@ export class HelloIonicPage {
       position: 'left',
       body: this.message
     });
-    
+
     this.message = "";
     this.textareaHeight = this.initialTextAreaHeight;
 
