@@ -79,7 +79,7 @@ export class HelloIonicPage {
       let initialTextAreaHeightNum = Number(this.initialTextAreaHeight.replace('px', ''))
       console.log('TXT VS INITIAL:', textareaHeightNum, initialTextAreaHeightNum);
 
-      let newHeight = (e['keyboardHeight'] + 44)  + textareaHeightNum - initialTextAreaHeightNum;
+      let newHeight = (e['keyboardHeight'] + 44) + textareaHeightNum - initialTextAreaHeightNum;
       console.log('new height', newHeight);
 
       let sc: any = document.getElementsByClassName('scroll-content')[1];
@@ -110,6 +110,18 @@ export class HelloIonicPage {
 
   private isFocused = false;
 
+
+  footerTouchStart(event) {
+
+    if (event.target.localname !== "textarea") {
+      event.preventDefault();
+      console.log('DODGE TOUCH PREVENTED')
+    } else {
+      console.log('footer touch start', event)
+
+    }
+
+  }
 
   ionInputTouchStart(evt: Event) {
     if (this.isFocused) {
@@ -190,11 +202,6 @@ export class HelloIonicPage {
     this.initialTextAreaHeight = this.textareaHeight
 
 
-    this.inputElement.onchange = () => {
-
-
-
-    }
 
     // this.inputElement.touchstart = (evt: Event) => {
     //   if (this.isFocused) {
