@@ -88,6 +88,8 @@ export class HelloIonicPage {
 
     this.inputElement.blur();
 
+
+    //this.inputElement.onblur = null;
     this.navCtrl.pop().then(() => {
       this.keyboardHideSub.unsubscribe();
       this.keybaordShowSub.unsubscribe();
@@ -99,11 +101,14 @@ export class HelloIonicPage {
     this.keyboardHideSub = Keyboard.onKeyboardHide().subscribe(() => {
 
       console.log('keybaordHide');
+      // if (!this.noHideAdjust) {
       let newHeight = this.textareaHeight - this.initialTextAreaHeight + 44;
       let newHeightStr = newHeight + 'px';
       this.scrollContentElelment.style.marginBottom = newHeightStr;
       this.footerElement.style.marginBottom = '0px';
       this.updateScroll('keybaordHide');
+      // }
+
     });
 
     this.keybaordShowSub = Keyboard.onKeyboardShow().subscribe((e) => {
@@ -111,6 +116,7 @@ export class HelloIonicPage {
       console.log('keybaordShow');
       if (!this.isTextareaFocused) {
         this.isTextareaFocused = true;
+        this.noHideAdjust = false;
         let newHeight = (e['keyboardHeight'] + 44) + this.textareaHeight - this.initialTextAreaHeight;
         this.scrollContentElelment.style.marginBottom = newHeight + 'px';
         this.footerElement.style.marginBottom = e['keyboardHeight'] + 'px';
@@ -149,6 +155,7 @@ export class HelloIonicPage {
 
     console.log('blurring input element');
     this.inputElement.blur();
+    this.isTextareaFocused = false;
     if (this.inputElement.onblur) {
       this.inputElement.onblur = null;
     }
@@ -172,12 +179,25 @@ export class HelloIonicPage {
     })
 
     this.message = "";
+    //this.textareaHeight = this.initialTextAreaHeight;
+
+    //if (this.plt.is('core') || this.plt.is('mobileweb')) {
     let currentHeight = this.scrollContentElelment.style.marginBottom.replace('px', '');
     let newHeight = currentHeight - this.textareaHeight + this.initialTextAreaHeight;
+
+    console.log('-----------------------');
+    console.log('current height ', currentHeight);
+    console.log('textareaHeight ', this.textareaHeight);
+    console.log('initialTextAreaHeight ', this.initialTextAreaHeight);
+    console.log('new height ', newHeight);
+    console.log('-----------------------');
 
     this.scrollContentElelment.style.marginBottom = newHeight + 'px';
     this.updateScroll('sendMessage');
     this.textareaHeight = this.initialTextAreaHeight;
+
+    //  this.scrollContentElelment.style.marginBottom = '44px';
+    //}
 
     setTimeout(() => {
       this.messages.push({
