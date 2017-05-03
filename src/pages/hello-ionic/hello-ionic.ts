@@ -13,6 +13,7 @@ export class HelloIonicPage {
   private inputElement;
   private millis = 100;
   private textareaHeight;
+  private isTextareaFocused = false;
   private noHideAdjust = false;
   private scrollContentElelment: any;
   private footerElement: any;
@@ -56,12 +57,27 @@ export class HelloIonicPage {
 
   }
 
+  footerTouchStart(event) {
+    console.log('preventing - footerTouchStart')
+    if (event.target.localName !== "textarea") {
+      //event.preventDefault();
+    }
+  }
+
+  ionInputTouchStart(evt) {
+    if (this.isTextareaFocused) {
+      //evt.preventDefault();
+    }
+  }
+
   textAreaChange() {
 
     let newHeight = Number(this.inputElement.style.height.replace('px', ''));
     if (newHeight !== this.textareaHeight) {
+
       let diffHeight = newHeight - this.textareaHeight;
       this.textareaHeight = newHeight;
+      console.log('new text area height', this.textareaHeight);
       let newNumber = Number(this.scrollContentElelment.style.marginBottom.replace('px', '')) + diffHeight;
       this.scrollContentElelment.style.marginBottom = newNumber + 'px';
       this.updateScroll('textAreaChange');
@@ -93,14 +109,16 @@ export class HelloIonicPage {
     this.keybaordShowSub = Keyboard.onKeyboardShow().subscribe((e) => {
 
       console.log('keybaordShow');
-      let newHeight = (e['keyboardHeight'] + 44) + this.textareaHeight - this.initialTextAreaHeight;
-      this.scrollContentElelment.style.marginBottom = newHeight + 'px';
-      this.footerElement.style.marginBottom = e['keyboardHeight'] + 'px';
+      if (!this.isTextareaFocused) {
+        this.isTextareaFocused = true;
+        let newHeight = (e['keyboardHeight'] + 44) + this.textareaHeight - this.initialTextAreaHeight;
+        this.scrollContentElelment.style.marginBottom = newHeight + 'px';
+        this.footerElement.style.marginBottom = e['keyboardHeight'] + 'px';
 
-      setTimeout(() => {
-        this.updateScroll('keybaordShow');
-      }, 100)
-
+        setTimeout(() => {
+          this.updateScroll('keybaordShow');
+        }, 100)
+      }
 
     });
 
