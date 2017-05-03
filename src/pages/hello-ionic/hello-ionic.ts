@@ -12,7 +12,7 @@ export class HelloIonicPage {
   private inputElement;
   private millis = 100;
   private textareaHeight;
-  private isTextareaFocused = true;
+  private isTextareaFocused = false;
   private noHideAdjust = false;
   private scrollContentElelment: any;
   private footerElement: any;
@@ -83,12 +83,14 @@ export class HelloIonicPage {
   } // end constructor
 
   footerTouchStart(event) {
-    if (event.target.localname !== "textarea") {
+    console.log('footerTouchStart', event.target.localName)
+    if (event.target.localName !== "textarea") {
       event.preventDefault();
     }
   }
 
-  ionInputTouchStart(evt: Event) {
+  ionInputTouchStart(evt) {
+    console.log('ionInputTouchStart', evt.target.localName)
     if (this.isTextareaFocused) {
       evt.preventDefault();
     }
@@ -110,7 +112,7 @@ export class HelloIonicPage {
     }
   }
 
-  back($event: Event){
+  back($event: Event) {
     $event.preventDefault();
     this.inputElement.onblur = null;
     this.navCtrl.pop();
@@ -166,9 +168,9 @@ export class HelloIonicPage {
     this.message = "";
     this.textareaHeight = this.initialTextAreaHeight;
 
-    if (!this.inputElement.onblur) {
-      this.updateScroll();
-    }
+    //if (!this.inputElement.onblur) {
+    this.updateScroll();
+    //}
 
     setTimeout(() => {
       this.messages.push({
