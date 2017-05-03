@@ -1,5 +1,5 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { Content, NavParams, NavController } from 'ionic-angular';
+import { Content, NavParams, NavController, Platform } from 'ionic-angular';
 import { Keyboard } from 'ionic-native';
 
 @Component({
@@ -49,34 +49,34 @@ export class HelloIonicPage {
 
   @ViewChild(Content) content: Content;
 
-  constructor(keybaord: Keyboard, private ngZone: NgZone, public navParams: NavParams, public navCtrl: NavController) {
+  constructor(keybaord: Keyboard, public plt: Platform, private ngZone: NgZone, public navParams: NavParams, public navCtrl: NavController) {
 
     this.user = navParams.get('user');
 
     Keyboard.onKeyboardHide().subscribe(() => {
 
-      // console.log('keybaordHide');
+      console.log('keybaordHide');
       if (!this.noHideAdjust) {
         let newHeight = this.textareaHeight - this.initialTextAreaHeight + 44;
         let newHeightStr = newHeight + 'px';
         this.scrollContentElelment.style.marginBottom = newHeightStr;
         this.footerElement.style.marginBottom = '0px';
       }
-      this.updateScroll();
+      this.updateScroll('keybaordHide');
 
     });
 
     Keyboard.onKeyboardShow().subscribe((e) => {
 
       this.noHideAdjust = false;
-      // console.log('keybaordShow');
+      console.log('keybaordShow');
       let newHeight = (e['keyboardHeight'] + 44) + this.textareaHeight - this.initialTextAreaHeight;
       this.scrollContentElelment.style.marginBottom = newHeight + 'px';
       this.footerElement.style.marginBottom = e['keyboardHeight'] + 'px';
 
       setTimeout(() => {
-        this.updateScroll();
-      }, 100)
+        this.updateScroll('keybaordShow');
+      }, 300)
 
     });
 
@@ -108,7 +108,7 @@ export class HelloIonicPage {
       this.textareaHeight = newHeight;
       let newNumber = Number(this.scrollContentElelment.style.marginBottom.replace('px', '')) + diffHeight;
       this.scrollContentElelment.style.marginBottom = newNumber + 'px';
-      this.updateScroll();
+      this.updateScroll('textAreaChange');
     }
   }
 
@@ -168,24 +168,26 @@ export class HelloIonicPage {
     this.message = "";
     this.textareaHeight = this.initialTextAreaHeight;
 
-    //if (!this.inputElement.onblur) {
-    this.updateScroll();
-    //}
+    console.log('platform', this.plt.is('mobileweb'));
+    if (this.plt.is('core') || this.plt.is('mobileweb')) {
+      this.updateScroll('sendMessage');
+      this.scrollContentElelment.style.marginBottom =  '44px';
+    }
 
     setTimeout(() => {
       this.messages.push({
         position: 'right',
         body: "random reply to your amazing message is here"
       });
-      this.updateScroll();
+      this.updateScroll('reply message');
     }, 3000)
   }
 
 
 
-  updateScroll() {
+  updateScroll(from) {
     setTimeout(() => {
-      //console.log('updating scroll')
+      console.log('updating scroll -->', from)
       this.content.scrollToBottom();
     }, 100);
   }
