@@ -1,6 +1,6 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title> iOS Keyboard Test {{millis}}</ion-title>
+		<ion-title> iOS Keyboard Test</ion-title>
 
 		
 		<!--<div *ngIf="config">{{inputBlurring}}</div>-->
@@ -23,7 +23,6 @@
 </ion-content>
 
 <ion-footer (touchstart)="footerTouchStart($event)">
-	<!-- (touchstart)="toolbarTouchStart($event)" -->
 	<ion-toolbar>
 		<!--<ion-buttons left>
 			<button ion-button icon-only item-left>
@@ -31,13 +30,12 @@
       </button>
 		</ion-buttons>-->
 
-
 		<ion-textarea (ngModelChange)="textAreaChange()" rows="1" fz-elastic (touchstart)="ionInputTouchStart($event)"
 			 class="chat-input" keyboardFix [(ngModel)]="message" placeholder="Write a message...">
 		</ion-textarea>
 
 		<ion-buttons right>
-			<button [disabled]="!message" class="send-button" item-right id="send-button" (touchstart)="buttonMouseDown($event)">
+			<button [disabled]="!message" class="send-button" item-right id="send-button" (touchstart)="touchSendButton($event)">
 				 <ion-icon name="send"></ion-icon>
 	        </button>
 		</ion-buttons>

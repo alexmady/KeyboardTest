@@ -21,13 +21,11 @@ import { ElasticModule } from 'angular2-elastic';
     HttpModule,
     ElasticModule,
     IonicModule.forRoot(MyApp, {
-      // platforms: {
-      //           ios: {
-      //               scrollAssist: false,  // fake input element to support native keyboard stay up - not needed
-      //               autoFocusAssist: false,
-      //               //inputBlurring: true, // needed to stop keyboard hiding during scrolling - not needed
-      //           }
-      //       }
+        ios: {
+          scrollAssist: false, 
+          autoFocusAssist: false,
+          inputBlurring: false
+        }
     }
     )
   ],

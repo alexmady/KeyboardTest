@@ -1,5 +1,4 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { Config } from 'ionic-angular'
 import { Content } from 'ionic-angular';
 import { Keyboard } from 'ionic-native';
 
@@ -9,6 +8,16 @@ import { Keyboard } from 'ionic-native';
   providers: [Keyboard]
 })
 export class HelloIonicPage {
+
+  private inputElement;
+  private millis = 100;
+  private textareaHeight;
+  private isTextareaFocused = true;
+  private noHideAdjust = false;
+  private scrollContentElelment: any;
+  private footerElement: any;
+  private initialTextAreaHeight;
+
   public message = "";
   public messages: any[] = [
     {
@@ -36,34 +45,20 @@ export class HelloIonicPage {
       body: 'fff'
     },
   ];
+
   @ViewChild(Content) content: Content;
-  //@ViewChild('chat_input') messageInput: TextInput;
 
-  //  private inputBlurring;
-  //private config: Config;
-
-  constructor(config: Config, keybaord: Keyboard, private ngZone: NgZone) {
-
-    // this.config = config;
-    // this.inputBlurring = this.config.get('platforms').ios.inputBlurring;
-    // console.log('CONFIG', config.get('platforms'));
+  constructor(keybaord: Keyboard, private ngZone: NgZone) {
 
     Keyboard.onKeyboardHide().subscribe(() => {
 
+      console.log('keybaordHide');
       if (!this.noHideAdjust) {
-        console.log('keybaordHide');
-        let sc: any = document.getElementsByClassName('scroll-content')[1];
-
-        let textareaHeightNum = Number(this.textareaHeight.replace('px', ''));
-        let initialTextAreaHeightNum = Number(this.initialTextAreaHeight.replace('px', ''))
-        console.log('TXT VS INITIAL:', textareaHeightNum, initialTextAreaHeightNum);
-
-        let additional = textareaHeightNum - initialTextAreaHeightNum + 44;
-
-        console.log('setting additional to ', additional);
-        sc.style.marginBottom = additional + 'px';
-        let footer: any = document.getElementsByClassName('footer')[0];
-        footer.style.marginBottom = '0px';
+        let newHeight = this.textareaHeight - this.initialTextAreaHeight + 44;
+        let newHeightStr = newHeight + 'px';
+        console.log(newHeightStr, this.initialTextAreaHeight, this.textareaHeight);
+        this.scrollContentElelment.style.marginBottom = newHeightStr;
+        this.footerElement.style.marginBottom = '0px';
       }
       this.updateScroll();
 
@@ -73,217 +68,97 @@ export class HelloIonicPage {
 
       this.noHideAdjust = false;
       console.log('keybaordShow');
-      //let scrollContent = (<HTMLDivElement>document.querySelector('.scroll-content'));
-
-      let textareaHeightNum = Number(this.textareaHeight.replace('px', ''));
-      let initialTextAreaHeightNum = Number(this.initialTextAreaHeight.replace('px', ''))
-      console.log('TXT VS INITIAL:', textareaHeightNum, initialTextAreaHeightNum);
-
-      let newHeight = (e['keyboardHeight'] + 44) + textareaHeightNum - initialTextAreaHeightNum;
-      console.log('new height', newHeight);
-
-      let sc: any = document.getElementsByClassName('scroll-content')[1];
-      sc.style.marginBottom = newHeight + 'px';
-
-      let footer: any = document.getElementsByClassName('footer')[0];
-      footer.style.marginBottom = e['keyboardHeight'] + 'px';
+      let newHeight = (e['keyboardHeight'] + 44) + this.textareaHeight - this.initialTextAreaHeight;
+      this.scrollContentElelment.style.marginBottom = newHeight + 'px';
+      this.footerElement.style.marginBottom = e['keyboardHeight'] + 'px';
 
       setTimeout(() => {
         this.updateScroll();
-      }, 300)
+      }, 100)
 
     });
 
-
-  }
-
-  // toggleInputBlurring(val) {
-  //   console.log('set inputBlurring', val)
-  //   this.config.set('ios', 'inputBlurring', val);
-  //   this.inputBlurring = this.config.get('platforms').ios.inputBlurring;
-
-  // }
-
-  private inputElement;
-
-  private onblurAdded = false;
-
-  private isFocused = false;
-
+  } // end constructor
 
   footerTouchStart(event) {
-
     if (event.target.localname !== "textarea") {
       event.preventDefault();
-      console.log('DODGE TOUCH PREVENTED')
-    } else {
-      console.log('footer touch start', event)
-
     }
-
   }
 
   ionInputTouchStart(evt: Event) {
-    if (this.isFocused) {
-      console.log(' ***** preventing secondary focus');
+    if (this.isTextareaFocused) {
       evt.preventDefault();
-      evt.stopImmediatePropagation();
-      evt.stopPropagation();
-    } else {
-      console.log('was not focused ****** ');
     }
   }
-
-
-
-  transform() {
-    let footer: any = document.getElementsByClassName('footer')[0];
-
-    footer.style.marginBottom = '400px';
-
-
-  }
-
-  private millis = 150;
-
-  private textareaHeight;
 
 
   textAreaChange() {
 
-    let sc: any = document.getElementsByClassName('scroll-content')[1];
-
-    let newHeight = this.inputElement.style.height;
-
-    console.log('new height VS textareaHeight', newHeight, this.textareaHeight);
+    let newHeight = Number(this.inputElement.style.height.replace('px', ''));
+    //console.log('new height VS textareaHeight', newHeight, this.textareaHeight);
 
     if (newHeight !== this.textareaHeight) {
 
-      let newHeightNum = Number(newHeight.replace('px', ''));
-      let oldHeightNum = Number(this.textareaHeight.replace('px', ''));
-
-      let diffHeight = newHeightNum - oldHeightNum;
-      console.log('change textarea difff:', diffHeight);
+      let diffHeight = newHeight - this.textareaHeight;
       this.textareaHeight = newHeight;
-      console.log('change textarea new Height:', newHeight);
-
-      console.log('before', sc.style.marginBottom);
-      let newNumber = Number(sc.style.marginBottom.replace('px', '')) + diffHeight;
-
-      console.log('new number', newNumber)
-      sc.style.marginBottom = newNumber + 'px';
-      console.log('after s', sc.style.marginBottom);
+      let newNumber = Number(this.scrollContentElelment.style.marginBottom.replace('px', '')) + diffHeight;
+      this.scrollContentElelment.style.marginBottom = newNumber + 'px';
       this.updateScroll();
     }
-
 
   }
 
 
-  private initialTextAreaHeight;
 
   ionViewDidLoad() {
 
+    this.scrollContentElelment = document.getElementsByClassName('scroll-content')[1];
+    this.footerElement = document.getElementsByClassName('footer')[0];
+    this.inputElement = document.getElementsByTagName('textarea')[0];
 
-
-    let footer: any = document.getElementsByClassName('footer')[0];
-    footer.style.cssText = footer.style.cssText + "transition: all " + this.millis + "ms; -webkit-transition: all " +
+    this.footerElement.style.cssText = this.footerElement.style.cssText + "transition: all " + this.millis + "ms; -webkit-transition: all " +
       this.millis + "ms; -webkit-transition-timing-function: ease-out; transition-timing-function: ease-out;"
 
     // let sc: any = document.getElementsByClassName('scroll-content')[1];
     // sc.style.cssText = sc.style.cssText + "transition: all " + this.millis + "ms; -webkit-transition: all " +
     //   this.millis + "ms; -webkit-transition-timing-function: ease-out; transition-timing-function: ease-out;"
 
-
-    this.inputElement = document.getElementsByTagName('textarea')[0];
-    console.log(this.inputElement, '<<-- input element')
-
-    this.textareaHeight = this.inputElement.style.height;
-    this.initialTextAreaHeight = this.textareaHeight
-
-
-
-    // this.inputElement.touchstart = (evt: Event) => {
-    //   if (this.isFocused) {
-    //     console.log('preventing secondary focus');
-    //     evt.preventDefault();
-    //   }
-    // }
-
+    this.textareaHeight = Number(this.inputElement.style.height.replace('px', ''));
+    this.initialTextAreaHeight = this.textareaHeight;
 
     this.inputElement.onfocus = (evt: Event) => {
-
-      // let footer: any = document.getElementsByClassName('footer')[0];
-      // footer.style.marginBottom = 357 - 44 + 'px';
-
-      this.isFocused = true;
-      console.log('setting focused true');
-
       this.inputElement.onblur = (event: Event) => {
-
         event.preventDefault();
-        event.stopImmediatePropagation();
-        event.stopPropagation();
         this.inputElement.focus();
-
       };
-
     }
-
   }
-
-
-
-
 
   contentMouseDown(event) {
 
-    this.isFocused = false;
+    this.isTextareaFocused = false;
     if (this.inputElement.onblur) {
-      console.log('REMOVING BLUR EVENT');
       this.inputElement.onblur = null;
-      this.onblurAdded = false;
-      // this.updateScroll();
     }
-
   }
 
-  private noHideAdjust = false;
-
-  toolbarTouchStart(event: Event) {
-    console.log('toolbar touch start prevent');
+  touchSendButton(event: Event) {
+    event.stopImmediatePropagation();
     event.preventDefault();
-  }
-
-  buttonMouseDown(event: Event) {
-
-    event.preventDefault();
-    console.log('button mouse down');
-
-    //setTimeout(() => {
     this.noHideAdjust = true;
     this.sendMessage();
-    //}, 0)
-
-    event.stopImmediatePropagation();
-    event.stopPropagation();
-    //this.inputElement.focus();
-
-
   }
 
   sendMessage() {
+
     this.messages.push({
       position: 'left',
       body: this.message
     });
+    
     this.message = "";
-
-
-    setTimeout(() => {
-      console.log("****************")
-      this.textareaHeight = this.inputElement.style.height;
-    }, 50);
+    this.textareaHeight = this.initialTextAreaHeight;
 
     if (!this.inputElement.onblur) {
       this.updateScroll();
@@ -302,7 +177,7 @@ export class HelloIonicPage {
 
   updateScroll() {
     setTimeout(() => {
-      console.log('updating scroll')
+      //console.log('updating scroll')
       this.content.scrollToBottom();
     }, 100);
   }
