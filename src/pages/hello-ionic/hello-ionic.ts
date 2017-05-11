@@ -20,8 +20,6 @@ export class HelloIonicPage {
   private keyboardHideSub;
   private keybaordShowSub;
 
-  private fakeBGVisible = true;
-
   public message = "";
   public messages: any[] = [
     {
@@ -71,8 +69,7 @@ export class HelloIonicPage {
   }
 
   footerTouchStart(event) {
-    console.log('footerTouchStart: ', event.type, event.target.localName, '...')
-
+    //console.log('footerTouchStart: ', event.type, event.target.localName, '...')
     if (event.target.localName !== "textarea") {
       event.preventDefault();
       console.log('preventing')
@@ -86,23 +83,15 @@ export class HelloIonicPage {
 
       let diffHeight = newHeight - this.textareaHeight;
       this.textareaHeight = newHeight;
-      console.log('new text area height', this.textareaHeight);
       let newNumber = Number(this.scrollContentElelment.style.marginBottom.replace('px', '')) + diffHeight;
-      
-      let top = newNumber + 'px';
-      console.log('textAreaChange', 'setting top to', top);
-      //this.scrollContentElelment.style.marginBottom = newNumber + 'px';
-      this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', top );
-      // this.content.resize();
-      // if (this.contentBottom()) {
+
+      let marginBottom = newNumber + 'px';
+      this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', marginBottom );
       this.updateScroll('textAreaChange');
-      // }
     }
   }
 
   back(event: Event) {
-
-    this.fakeBGVisible = false;
 
     this.inputElement.blur();
     this.navCtrl.pop().then(() => {
@@ -118,32 +107,21 @@ export class HelloIonicPage {
   ionViewDidLoad() {
 
     this.keyboardHideSub = Keyboard.onKeyboardHide().subscribe(() => {
-
-      console.log('keyboard Hide');
       let newHeight = this.textareaHeight - this.initialTextAreaHeight + 44;
-      let top = newHeight + 'px';
-
-      this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', top);
-      console.log('setting top to 0px')
+      let marginBottom = newHeight + 'px';
+      this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', marginBottom);
       this.renderer.setElementStyle(this.footerElement, 'marginBottom', '0px')
     });
 
     this.keybaordShowSub = Keyboard.onKeyboardShow().subscribe((e) => {
-
-      console.log('keyboard Show');
       let newHeight = (e['keyboardHeight']) + this.textareaHeight - this.initialTextAreaHeight;
       let top =  newHeight + 44 + 'px';
       this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom',top );
-      console.log('top', top);
-
       this.renderer.setElementStyle(this.footerElement, 'marginBottom', e['keyboardHeight'] + 'px');
       this.updateScroll('keybaord show');
     });
 
     this.scrollContentElelment = this.content.getScrollElement();
-
-    console.log('scroll element', this.scrollContentElelment)
-
 
     this.footerElement = document.getElementsByTagName('hello-ionic-page')[0].getElementsByTagName('ion-footer')[0];
     this.inputElement = document.getElementsByTagName('hello-ionic-page')[0].getElementsByTagName('textarea')[0];
@@ -185,7 +163,6 @@ export class HelloIonicPage {
     let newHeight = currentHeight - this.textareaHeight + this.initialTextAreaHeight;
     let top =  newHeight + 'px';
     this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', top);
-    console.log('send message, top', top)
     this.updateScroll('sendMessage');
     this.textareaHeight = this.initialTextAreaHeight;
 
@@ -203,7 +180,7 @@ export class HelloIonicPage {
 
   updateScroll(from) {
     setTimeout(() => {
-      console.log('updating scroll -->', from)
+      //console.log('updating scroll -->', from)
       this.content.scrollToBottom();
     }, 300);
   }

@@ -25,8 +25,6 @@
 <textarea class="floating-textarea" spellcheck="true" autocomplete="true" (ngModelChange)="textAreaChange()" rows="1" fz-elastic class="chat-input"
 	[(ngModel)]="message" placeholder="Write a message...">
 		</textarea>-->
-<div *ngIf="fakeBGVisible" class="fake-bg"></div>
-
 <ion-content fixed scrollDownOnLoad="true" (tap)="contentMouseDown($event)" ionScrollEnd="hideKeybaord()">
 	<ion-list no-lines>
 		<ion-item *ngFor="let msg of messages">
