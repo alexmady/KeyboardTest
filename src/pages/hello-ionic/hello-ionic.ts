@@ -72,7 +72,7 @@ export class HelloIonicPage {
     //console.log('footerTouchStart: ', event.type, event.target.localName, '...')
     if (event.target.localName !== "textarea") {
       event.preventDefault();
-      console.log('preventing')
+      // console.log('preventing')
     }
   }
 
@@ -98,10 +98,6 @@ export class HelloIonicPage {
       this.keyboardHideSub.unsubscribe();
       this.keybaordShowSub.unsubscribe();
     });
-  }
-
-  ionScrollEnd(){
-    console.log('reaced ion scroll end, about to hide Keyboard');
   }
 
   ionViewDidLoad() {
