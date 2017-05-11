@@ -2,7 +2,7 @@
 	<ion-navbar hideBackButton>
 
 		<ion-buttons left>
-			<button ion-button (touchstart)="back($event)">
+			<button ion-button class="back-arrow" (touchstart)="back($event)">
             <ion-icon name="arrow-back"></ion-icon>
         </button>
 		</ion-buttons>
@@ -21,14 +21,20 @@
 		</ion-buttons>-->
 	</ion-navbar>
 </ion-header>
-<ion-content (touchstart)="contentMouseDown()">
+<!--
+<textarea class="floating-textarea" spellcheck="true" autocomplete="true" (ngModelChange)="textAreaChange()" rows="1" fz-elastic class="chat-input"
+	[(ngModel)]="message" placeholder="Write a message...">
+		</textarea>-->
+<div *ngIf="fakeBGVisible" class="fake-bg"></div>
+
+<ion-content fixed scrollDownOnLoad="true" (tap)="contentMouseDown($event)" ionScrollEnd="hideKeybaord()">
 	<ion-list no-lines>
 		<ion-item *ngFor="let msg of messages">
 			<chat-bubble [message]="msg"></chat-bubble>
 		</ion-item>
 	</ion-list>
 </ion-content>
-
+<!---->
 <ion-footer (touchstart)="footerTouchStart($event)">
 	<ion-toolbar>
 		<!--<ion-buttons left>
@@ -37,8 +43,8 @@
       </button>
 		</ion-buttons>-->
 
-		<textarea spellcheck="true" autocomplete="true" (ngModelChange)="textAreaChange()" rows="1" fz-elastic class="chat-input"
-			 [(ngModel)]="message" placeholder="Write a message...">
+		<textarea spellcheck="yes" autoComplete="true" autocorrect="true" (ngModelChange)="textAreaChange()" rows="1" fz-elastic
+			class="chat-input" [(ngModel)]="message" placeholder="Write a message...">
 		</textarea>
 
 		<ion-buttons right>
