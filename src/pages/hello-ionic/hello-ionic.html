@@ -23,7 +23,7 @@
 	<ion-toolbar>
 
 		<textarea spellcheck="true" autoComplete="true" autocorrect="true" (ngModelChange)="textAreaChange()" rows="1" fz-elastic
-			class="chat-input" [(ngModel)]="message" placeholder="Write a message...">
+			class="chat-input" [(ngModel)]="message" placeholder="Write a message..." (keyup.enter)="sendMessage()">
 		</textarea>
 
 		<ion-buttons right>

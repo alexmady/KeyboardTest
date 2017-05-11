@@ -33,16 +33,16 @@
 
   .message-detail {
     white-space: nowrap;
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .chat-bubble {
-    border-radius: 5px;
+    border-radius: 10px;
     display: inline-block;
     padding: 10px 18px;
     position: relative;
     margin: 10px;
-    max-width: 65%;
+    max-width: 80%;
   }
 
   .chat-bubble:before {

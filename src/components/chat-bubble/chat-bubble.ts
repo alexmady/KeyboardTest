@@ -9,7 +9,7 @@ import {Component} from '@angular/core';
         <div class="chat-bubble {{msg.position}}">
           <div class="message">{{msg.body}}</div>
           <div class="message-detail">
-              <span>{{msg.timestamp | date: "HH:mm" }}</span>
+              <span>{{msg.timestamp| date: "HH:mm"}}</span>
           </div>
         </div>
       </div>

@@ -19,48 +19,7 @@ export class HelloIonicPage {
   private user;
   private keyboardHideSub;
   private keybaordShowSub;
-
-  public message = "";
-  public messages: any[] = [
-    {
-      position: 'left',
-      body: 'aaa'
-    },
-    {
-      position: 'right',
-      body: 'bbb'
-    },
-    {
-      position: 'left',
-      body: 'ccc'
-    },
-    {
-      position: 'right',
-      body: 'ddd'
-    },
-    {
-      position: 'left',
-      body: 'eee'
-    },
-    {
-      position: 'right',
-      body: 'fff'
-    },
-    {
-      position: 'right',
-      body: 'fff'
-    },
-    {
-      position: 'right',
-      body: 'fff'
-    },
-    {
-      position: 'right',
-      body: 'fff'
-    }
-  ];
-
-
+  private message = "";
 
   constructor(keybaord: Keyboard, public renderer: Renderer, public navParams: NavParams, public navCtrl: NavController) {
 
@@ -86,7 +45,7 @@ export class HelloIonicPage {
       let newNumber = Number(this.scrollContentElelment.style.marginBottom.replace('px', '')) + diffHeight;
 
       let marginBottom = newNumber + 'px';
-      this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', marginBottom );
+      this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', marginBottom);
       this.updateScroll('textAreaChange');
     }
   }
@@ -111,8 +70,8 @@ export class HelloIonicPage {
 
     this.keybaordShowSub = Keyboard.onKeyboardShow().subscribe((e) => {
       let newHeight = (e['keyboardHeight']) + this.textareaHeight - this.initialTextAreaHeight;
-      let top =  newHeight + 44 + 'px';
-      this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom',top );
+      let top = newHeight + 44 + 'px';
+      this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', top);
       this.renderer.setElementStyle(this.footerElement, 'marginBottom', e['keyboardHeight'] + 'px');
       this.updateScroll('keybaord show');
     });
@@ -150,14 +109,15 @@ export class HelloIonicPage {
 
     this.messages.push({
       position: 'left',
-      body: this.message
+      body: this.message,
+      timestamp: new Date()
     });
 
     this.message = "";
 
     let currentHeight = this.scrollContentElelment.style.marginBottom.replace('px', '');
     let newHeight = currentHeight - this.textareaHeight + this.initialTextAreaHeight;
-    let top =  newHeight + 'px';
+    let top = newHeight + 'px';
     this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', top);
     this.updateScroll('sendMessage');
     this.textareaHeight = this.initialTextAreaHeight;
@@ -166,10 +126,12 @@ export class HelloIonicPage {
     setTimeout(() => {
       this.messages.push({
         position: 'right',
-        body: "random reply to your amazing message is here"
+        body: "random reply to your amazing message is here",
+        timestamp: new Date()
       });
       this.updateScroll('reply message');
-    }, 3000)
+    }, 3000);
+
   }
 
 
@@ -178,6 +140,59 @@ export class HelloIonicPage {
     setTimeout(() => {
       //console.log('updating scroll -->', from)
       this.content.scrollToBottom();
-    }, 300);
+    }, 150);
   }
+
+  public messages: any[] = [
+    {
+      position: 'left',
+      body: 'aaa',
+      timestamp: new Date(),
+    },
+    {
+      position: 'right',
+      body: 'bbb',
+      timestamp: new Date(),
+    },
+    {
+      position: 'left',
+      body: 'ccc',
+      timestamp: new Date(),
+    },
+    {
+      position: 'right',
+      body: 'ddd',
+      timestamp: new Date(),
+    },
+    {
+      position: 'left',
+      body: 'eee',
+      timestamp: new Date(),
+
+    },
+    {
+      position: 'right',
+      body: 'fff',
+      timestamp: new Date(),
+
+    },
+    {
+      position: 'right',
+      body: 'fff',
+      timestamp: new Date(),
+
+    },
+    {
+      position: 'right',
+      body: 'fff',
+      timestamp: new Date(),
+
+    },
+    {
+      position: 'right',
+      body: 'fff',
+      timestamp: new Date(),
+    }
+  ];
+
 }
