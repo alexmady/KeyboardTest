@@ -13,6 +13,14 @@ hello-ionic-page {
         margin: 0px;
     }
 
+    ion-label {
+        margin: 0px !important;
+    }
+
+    item-inner {
+        padding-right: 0px;
+    }
+
     .send-button {
         display:block;
         width:30px;

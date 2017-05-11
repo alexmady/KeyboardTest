@@ -1,5 +1,5 @@
 import { Component, ViewChild, Renderer } from '@angular/core';
-import { Content, NavParams, NavController } from 'ionic-angular';
+import { Content, NavParams, NavController, Platform } from 'ionic-angular';
 import { Keyboard } from 'ionic-native';
 
 @Component({
@@ -12,6 +12,7 @@ export class HelloIonicPage {
   @ViewChild(Content) content: Content;
   private inputElement;
   private millis = 200;
+  private scrollTimeout = this.millis + 50;
   private textareaHeight;
   private scrollContentElelment: any;
   private footerElement: any;
@@ -21,7 +22,7 @@ export class HelloIonicPage {
   private keybaordShowSub;
   private message = "";
 
-  constructor(keybaord: Keyboard, public renderer: Renderer, public navParams: NavParams, public navCtrl: NavController) {
+  constructor(keybaord: Keyboard, public platform: Platform, public renderer: Renderer, public navParams: NavParams, public navCtrl: NavController) {
 
     this.user = navParams.get('user');
 
@@ -46,7 +47,7 @@ export class HelloIonicPage {
 
       let marginBottom = newNumber + 'px';
       this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', marginBottom);
-      this.updateScroll('textAreaChange');
+      this.updateScroll('textAreaChange', this.scrollTimeout);
     }
   }
 
@@ -54,27 +55,43 @@ export class HelloIonicPage {
 
     this.inputElement.blur();
     this.navCtrl.pop().then(() => {
-      this.keyboardHideSub.unsubscribe();
-      this.keybaordShowSub.unsubscribe();
+      if (this.platform.is('ios')) {
+        this.removeKeyboardListeners();
+      }
     });
   }
 
-  ionViewDidLoad() {
+  removeKeyboardListeners() {
+    this.keyboardHideSub.unsubscribe();
+    this.keybaordShowSub.unsubscribe();
+  }
+
+  addKeyboardListeners() {
 
     this.keyboardHideSub = Keyboard.onKeyboardHide().subscribe(() => {
       let newHeight = this.textareaHeight - this.initialTextAreaHeight + 44;
       let marginBottom = newHeight + 'px';
+      console.log('marginBottom', marginBottom)
       this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', marginBottom);
       this.renderer.setElementStyle(this.footerElement, 'marginBottom', '0px')
     });
 
     this.keybaordShowSub = Keyboard.onKeyboardShow().subscribe((e) => {
+
       let newHeight = (e['keyboardHeight']) + this.textareaHeight - this.initialTextAreaHeight;
-      let top = newHeight + 44 + 'px';
-      this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', top);
+      let marginBottom = newHeight + 44 + 'px';
+      console.log('marginBottom', marginBottom)
+      this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', marginBottom);
       this.renderer.setElementStyle(this.footerElement, 'marginBottom', e['keyboardHeight'] + 'px');
-      this.updateScroll('keybaord show');
+      this.updateScroll('keybaord show', this.scrollTimeout);
     });
+  }
+
+  ionViewDidLoad() {
+
+    if (this.platform.is('ios')) {
+      this.addKeyboardListeners()
+    }
 
     this.scrollContentElelment = this.content.getScrollElement();
 
@@ -90,7 +107,7 @@ export class HelloIonicPage {
     this.textareaHeight = Number(this.inputElement.style.height.replace('px', ''));
     this.initialTextAreaHeight = this.textareaHeight;
 
-    this.updateScroll('load')
+    this.updateScroll('load', 500)
 
   }
 
@@ -119,7 +136,7 @@ export class HelloIonicPage {
     let newHeight = currentHeight - this.textareaHeight + this.initialTextAreaHeight;
     let top = newHeight + 'px';
     this.renderer.setElementStyle(this.scrollContentElelment, 'marginBottom', top);
-    this.updateScroll('sendMessage');
+    this.updateScroll('sendMessage', this.scrollTimeout);
     this.textareaHeight = this.initialTextAreaHeight;
 
     //DUMMY response message
@@ -129,18 +146,18 @@ export class HelloIonicPage {
         body: "random reply to your amazing message is here",
         timestamp: new Date()
       });
-      this.updateScroll('reply message');
+      this.updateScroll('reply message', this.scrollTimeout);
     }, 3000);
 
   }
 
 
 
-  updateScroll(from) {
+  updateScroll(from, timeout) {
     setTimeout(() => {
       //console.log('updating scroll -->', from)
       this.content.scrollToBottom();
-    }, 150);
+    }, timeout);
   }
 
   public messages: any[] = [
