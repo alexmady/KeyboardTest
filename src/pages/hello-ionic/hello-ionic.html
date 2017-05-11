@@ -8,23 +8,9 @@
 		</ion-buttons>
 
 		<ion-title>{{user}}</ion-title>
-
-
-		<!--<div *ngIf="config">{{inputBlurring}}</div>-->
-		<!--<ion-buttons left>
-			<button (click)="toggleInputBlurring(true)"> inputBlurring ON
-        </button>
-		</ion-buttons>-->
-		<!--<ion-buttons right>
-			<button (click)="transform()"> TRANSFORM
-        </button>
-		</ion-buttons>-->
 	</ion-navbar>
 </ion-header>
-<!--
-<textarea class="floating-textarea" spellcheck="true" autocomplete="true" (ngModelChange)="textAreaChange()" rows="1" fz-elastic class="chat-input"
-	[(ngModel)]="message" placeholder="Write a message...">
-		</textarea>-->
+
 <ion-content fixed scrollDownOnLoad="true" (tap)="contentMouseDown($event)" ionScrollEnd="hideKeybaord()">
 	<ion-list no-lines>
 		<ion-item *ngFor="let msg of messages">
@@ -32,22 +18,17 @@
 		</ion-item>
 	</ion-list>
 </ion-content>
-<!---->
+
 <ion-footer (touchstart)="footerTouchStart($event)">
 	<ion-toolbar>
-		<!--<ion-buttons left>
-			<button ion-button icon-only item-left>
-        <ion-icon name="attach"></ion-icon>
-      </button>
-		</ion-buttons>-->
 
-		<textarea spellcheck="yes" autoComplete="true" autocorrect="true" (ngModelChange)="textAreaChange()" rows="1" fz-elastic
+		<textarea spellcheck="true" autoComplete="true" autocorrect="true" (ngModelChange)="textAreaChange()" rows="1" fz-elastic
 			class="chat-input" [(ngModel)]="message" placeholder="Write a message...">
 		</textarea>
 
 		<ion-buttons right>
 			<button [disabled]="!message" class="send-button" item-right id="send-button" (touchstart)="touchSendButton($event)">
-				 <ion-icon name="send"></ion-icon>
+				 <ion-icon class="send-icon" name="send"></ion-icon>
 	        </button>
 		</ion-buttons>
 
