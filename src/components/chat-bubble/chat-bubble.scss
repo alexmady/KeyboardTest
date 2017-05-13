@@ -43,7 +43,7 @@
     padding: 5px 10px;
     position: relative;
     margin: 10px;
-    box-shadow: 1px 1px 5px #000;
+    // box-shadow: 1px 1px 5px #000;
     max-width: 80%;
   }
 
@@ -77,7 +77,7 @@
 
   .chat-bubble.right {
     background-color: map-get($chat-bubble, background-right);
-    color: #000;
+    color: white;
     float: right;
     //margin-right: 45px;
   }

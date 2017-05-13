@@ -125,7 +125,7 @@ export class HelloIonicPage {
   sendMessage() {
 
     this.messages.push({
-      position: 'left',
+      position: 'right',
       body: this.message,
       timestamp: new Date()
     });
@@ -139,10 +139,11 @@ export class HelloIonicPage {
     this.updateScroll('sendMessage', this.scrollTimeout);
     this.textareaHeight = this.initialTextAreaHeight;
 
+
     //DUMMY response message
     setTimeout(() => {
       this.messages.push({
-        position: 'right',
+        position: 'left',
         body: "random reply to your amazing message is here",
         timestamp: new Date()
       });
