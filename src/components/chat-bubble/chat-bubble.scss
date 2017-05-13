@@ -80,7 +80,7 @@
 
   .chat-bubble-img.left {
     float: left;
-    //margin-left: 45px;
+    margin-left: 7.5px;
   }
 
   .chat-bubble.left:before {
@@ -107,7 +107,7 @@
   .chat-bubble-img.right {
     color: white;
     float: right;
-    //margin-right: 45px;
+    margin-right: 7.5px;
   }
 
   .chat-bubble.right:before {
@@ -130,9 +130,8 @@
     font-weight: bold;
   }
 
-  .img {
-    height: 300px;
-    width: 300px;
+  img {
+    border-radius: 10px;
   }
 
 }
