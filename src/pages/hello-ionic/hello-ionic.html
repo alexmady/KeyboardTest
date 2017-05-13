@@ -22,6 +22,12 @@
 <ion-footer (touchstart)="footerTouchStart($event)">
 	<ion-toolbar>
 
+		<ion-buttons left>
+			<button class="add-image-button" item-right (touchstart)="touchImageButton($event)">
+				 <ion-icon class="add-image-icon" name="images"></ion-icon>
+	        </button>
+		</ion-buttons>
+
 		<textarea spellcheck="true" autoComplete="true" autocorrect="true" (ngModelChange)="textAreaChange()" rows="1" fz-elastic
 			class="chat-input" [(ngModel)]="message" placeholder="Write a message..." (keyup.enter)="sendMessage()">
 		</textarea>

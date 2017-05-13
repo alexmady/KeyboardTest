@@ -21,11 +21,20 @@ hello-ionic-page {
         padding-right: 0px;
     }
 
+    .add-image-button {
+        font-size: 20px;
+        background: transparent;
+    }
+
+    .add-image-icon {
+        color: #005677;
+    }
+
     .send-button {
         display:block;
-        width:30px;
-        height:30px;
-        line-height:30px;
+        width:25px;
+        height:25px;
+        line-height:25px;
         // border: 2px solid #f5f5f5;
         border-radius: 50%;
         color: #f2f2f2;
@@ -34,7 +43,7 @@ hello-ionic-page {
         background-color: #005677;
         font-weight:bold;
         padding: 0px;
-        margin-right: 15px;
+        margin-right: 5px;
     }
 
     .toolbar-background {
