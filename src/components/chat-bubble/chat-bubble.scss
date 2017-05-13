@@ -26,7 +26,7 @@
   }
 
   .message {
-    font-size: medium;
+    font-size: small;
     word-wrap: break-word;
     white-space: pre-wrap;
   }
@@ -40,9 +40,10 @@
   .chat-bubble {
     border-radius: 10px;
     display: inline-block;
-    padding: 10px 10px;
+    padding: 5px 10px;
     position: relative;
     margin: 10px;
+    box-shadow: 1px 1px 5px #000;
     max-width: 80%;
   }
 
@@ -62,9 +63,16 @@
   }
 
   .chat-bubble.left:before {
-    background-color: map-get($chat-bubble, background-left);
-    left: 10px;
-    -webkit-transform: rotate(70deg) skew(5deg);
+    left: -15px;
+    top: -5px;
+    content: "";
+    position: absolute;
+    border: 0 solid transparent;
+    border-top: 9px solid map-get($chat-bubble, background-left);
+    border-radius: 0 20px 0;
+    width: 15px;
+    height: 30px;
+    -webkit-transform: rotate(145deg);
   }
 
   .chat-bubble.right {
@@ -75,9 +83,17 @@
   }
 
   .chat-bubble.right:before {
-    background-color: map-get($chat-bubble, background-right);
-    right: 10px;
-    -webkit-transform: rotate(118deg) skew(-5deg);
+    right: -15px;
+    top: -5px;
+    content: "";
+    position: absolute;
+    border: 0 solid transparent;
+    border-top: 9px solid map-get($chat-bubble, background-right);
+    border-radius: 20px 0px 20px;
+    width: 15px;
+    height: 30px;
+    -webkit-transform: rotate(220deg);
+
   }
 
   .chat-bubble.right a.autolinker {
