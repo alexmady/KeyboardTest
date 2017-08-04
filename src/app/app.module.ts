@@ -8,6 +8,7 @@ import { keyboardFix } from '../components/keyboard-fix/keyboard-fix'
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { ElasticModule } from 'angular2-elastic';
+import { ChatDate } from '../pipes/chat-date';
 
 
 @NgModule({
@@ -16,7 +17,9 @@ import { ElasticModule } from 'angular2-elastic';
     Home,
     HelloIonicPage,
     ChatBubble,
-    keyboardFix
+    keyboardFix,
+    ChatDate
+    
   ],
   imports: [
     BrowserModule,
@@ -38,6 +41,6 @@ import { ElasticModule } from 'angular2-elastic';
     Home,
     ChatBubble
   ],
-  providers: []
+  providers: [ChatDate]
 })
 export class AppModule {}
