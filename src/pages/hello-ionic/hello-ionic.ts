@@ -26,13 +26,14 @@ export class HelloIonicPage {
   private keybaordShowSub;
   private message = "";
 
-  constructor(private camera: Camera, private keyboard: Keyboard, private imagePicker: ImagePicker, public platform: Platform, public renderer: Renderer, public navParams: NavParams, public navCtrl: NavController) {
+  constructor(private camera: Camera, private keyboard: Keyboard, public platform: Platform, public renderer: Renderer, public navParams: NavParams, public navCtrl: NavController) {
 
 
     this.user = navParams.get('user');
 
   }
 
+  
   footerTouchStart(event) {
     //console.log('footerTouchStart: ', event.type, event.target.localName, '...')
     if (event.target.localName !== "textarea") {
