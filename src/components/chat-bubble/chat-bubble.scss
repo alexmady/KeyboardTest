@@ -75,6 +75,7 @@
   .chat-bubble.left {
     background-color: map-get($chat-bubble, background-left);
     float: left;
+    text-align: left;
     //margin-left: 45px;
   }
 
@@ -87,6 +88,7 @@
     left: -15px;
     top: -5px;
     content: "";
+    text-align: left;
     position: absolute;
     border: 0 solid transparent;
     border-top: 9px solid map-get($chat-bubble, background-left);
@@ -101,6 +103,7 @@
     background-color: map-get($chat-bubble, background-right);
     color: white;
     float: right;
+    text-align: right;
     //margin-right: 45px;
   }
 
