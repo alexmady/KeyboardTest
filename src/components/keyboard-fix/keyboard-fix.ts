@@ -19,9 +19,9 @@ export class keyboardFix implements AfterViewInit {
     } 
 
     if( input ) {
-        this._renderer.setElementAttribute(input, 'autoComplete', 'true');
-        this._renderer.setElementAttribute(input, 'spellcheck', 'true');
-        this._renderer.setElementAttribute(input, 'autocorrect', 'true');
+        this._renderer.setElementAttribute(input, 'autoComplete', 'on');
+        this._renderer.setElementAttribute(input, 'spellcheck', 'on');
+        this._renderer.setElementAttribute(input, 'autocorrect', 'on');
     }   
  
   }

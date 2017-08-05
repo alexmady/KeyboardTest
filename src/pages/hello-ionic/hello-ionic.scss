@@ -71,13 +71,14 @@ hello-ionic-page {
         -moz-box-shadow: none;
         box-shadow: none;
         border: 1px solid;
+                margin-bottom: -5px;
+
         border-radius: 10px;
         margin-left: 10px;
         border-color: lightgrey;
         margin-right: 10px;
-        margin-top: 5px;
+        padding-top: 5px;
         background-color: #f8f8f8;
-        margin-bottom: 5px;
         width: 90%;
     }   
 }

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
-import { Home } from '../pages/home/home';
+import { ChatsPage } from '../pages/chats/chats';
 import { ChatBubble} from '../components/chat-bubble/chat-bubble';
 import { keyboardFix } from '../components/keyboard-fix/keyboard-fix'
 import { BrowserModule } from '@angular/platform-browser';
@@ -14,7 +14,7 @@ import { ChatDate } from '../pipes/chat-date';
 @NgModule({
   declarations: [
     MyApp,
-    Home,
+    ChatsPage,
     HelloIonicPage,
     ChatBubble,
     keyboardFix,
@@ -36,10 +36,11 @@ import { ChatDate } from '../pipes/chat-date';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
+    // MyApp,
     HelloIonicPage,
-    Home,
-    ChatBubble
+    // Home,
+    // ChatBubble,
+    ChatsPage
   ],
   providers: [ChatDate]
 })

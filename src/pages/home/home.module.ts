@@ -4,8 +4,8 @@ import { Home } from './home';
 
 @NgModule({
   declarations: [
-    Home,
-  ],
+    Home
+    ],
   imports: [
     IonicModule.forRoot(Home),
   ],

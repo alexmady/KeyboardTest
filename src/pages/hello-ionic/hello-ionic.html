@@ -12,9 +12,11 @@
 </ion-header>
 
 <ion-content fixed scrollDownOnLoad="true" (tap)="contentMouseDown($event)" ionScrollEnd="hideKeybaord()">
-	<ion-list no-lines>
-		<ion-item *ngFor="let msg of messages">
-			<chat-bubble [message]="msg"></chat-bubble>
+	<ion-list no-lines no-padding>
+		<ion-item text-center *ngFor="let msg of messages">
+			<ion-label text-center>
+				<chat-bubble [message]="msg"></chat-bubble>
+			</ion-label>
 		</ion-item>
 	</ion-list>
 </ion-content>
@@ -28,9 +30,9 @@
 	        </button>
 		</ion-buttons>
 
-		<textarea spellcheck="true" autoComplete="true" autocorrect="true" (ngModelChange)="textAreaChange()" rows="1" fz-elastic
-			class="chat-input" [(ngModel)]="message" placeholder="Write a message..." (keyup.enter)="sendMessage()">
-		</textarea>
+		<textarea spellcheck="true" autoComplete="on" autocorrect="on" (ngModelChange)="textAreaChange()" rows="1" fz-elastic class="chat-input"
+			[(ngModel)]="message" placeholder="Write a message..." (keyup.enter)="sendMessage()">
+			</textarea>
 
 		<ion-buttons right>
 			<button [disabled]="!message" class="send-button" item-right id="send-button" (touchstart)="touchSendButton($event)">

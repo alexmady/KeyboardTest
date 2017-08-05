@@ -107,6 +107,14 @@
   .chat-bubble-img.right {
     color: white;
     float: right;
+    padding: 5px;
+    margin-right: 7.5px;
+  }
+
+  .chat-bubble-img.left {
+    color: white;
+    float: left;
+    padding-top: 5px;
     margin-right: 7.5px;
   }
 
@@ -133,10 +141,15 @@
   img {
     border-radius: 10px;
   }
+  
+
 
 
 }
-  .date {
+
+ 
+
+.date {
     background: antiquewhite;
     margin: 0 auto;
     display: inline-block;
@@ -148,6 +161,8 @@
 
   .date-container {
     text-align: center;
+    // display: inline-block;
+
     // background-color: green;
     // border-radius: 5px;
     // width: 100px;

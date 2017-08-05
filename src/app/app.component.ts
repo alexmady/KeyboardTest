@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Platform, MenuController, Nav } from 'ionic-angular';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
-import { Home } from '../pages/home/home';
+import { ChatsPage } from '../pages/chats/chats';
 import { Keyboard } from '@ionic-native/keyboard';
 
 @Component({
@@ -10,7 +10,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-  rootPage: any = Home;
+  rootPage: any = ChatsPage;
   pages: Array<{title: string, component: any}>;
 
   constructor(

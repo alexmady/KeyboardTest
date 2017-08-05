@@ -33,7 +33,7 @@
     </feature>
     <allow-navigation href="http://192.168.0.26:8100" />
     <engine name="android" spec="^6.2.3" />
-    <engine name="ios" spec="^4.3.1" />
+    <engine name="ios" spec="^4.4.0" />
     <plugin name="cordova-plugin-camera" spec="^2.4.1">
         <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />
         <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value=" " />
